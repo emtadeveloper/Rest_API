@@ -1,7 +1,7 @@
 const UserModel = require('../models/userModels')
 const TokenService = require('../services/tokenServices')
 
-const newSession = async (req, res, next) => {
+exports.newSession = async (req, res, next) => {
   try {
     const { email } = req.body
     const user = await UserModel.findOne({ email })
@@ -9,7 +9,7 @@ const newSession = async (req, res, next) => {
       return res.status(404).send({
         status: 'error',
         code: 404,
-        message: 'The email address is incorrect'
+        message: 'آدرس ایمیل یا کلمه عبور اشتباه است'
       })
     }
     const token = TokenService.sign({ id: user._id })
@@ -22,5 +22,3 @@ const newSession = async (req, res, next) => {
     next(err)
   }
 }
-
-module.exports = newSession

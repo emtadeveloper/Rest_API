@@ -1,15 +1,17 @@
+/* eslint-disable no-prototype-builtins */
 const userModel = require('../models/userModels')
 const UserModel = require('../models/userModels')
 
 const usersList = async (req, res, next) => {
+  //
   let projection = {}
-  // eslint-disable-next-line no-prototype-builtins
   if (req.query.hasOwnProperty('fields')) {
     projection = req.query.fields.split(',').reduce((total, current) => {
       return { [current]: 1, ...total }
     }, {})
   }
-  const perPage = 1
+
+  const perPage = 10
   const page = req.query.page || 1
   const offset = (page - 1) * perPage
   const userCount = await UserModel.count()
